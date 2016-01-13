@@ -1,6 +1,8 @@
 package me.pyxled.combattag;
 
 import me.pyxled.combattag.events.DamageEvent;
+import me.pyxled.combattag.events.PlayerHitPlayerEvent;
+import me.pyxled.combattag.events.QuitEvent;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -21,10 +23,13 @@ public class Core extends JavaPlugin {
     public List<String> commands;
     public HashMap<Player, Integer> combatTagTime;
     public HashMap<Player, BukkitRunnable> combatTagTask;
+    SettingsManager settings = SettingsManager.getInstance();
 
     @Override
     public void onEnable(){
         //
+        SettingsManager.getInstance().setup(this);
+        settings.loadDisabledCommands();
         combatTagTime = new HashMap<>();
         combatTagTask = new HashMap<>();
         //
@@ -33,6 +38,8 @@ public class Core extends JavaPlugin {
     }
     public void RegisterListeners(){
         pm.registerEvents(new DamageEvent(), this);
+        pm.registerEvents(new PlayerHitPlayerEvent(), this);
+        pm.registerEvents(new QuitEvent(), this);
     }
     public String translate(String msg){
         return ChatColor.translateAlternateColorCodes('&', msg);
