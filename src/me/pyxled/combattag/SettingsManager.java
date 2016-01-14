@@ -46,9 +46,12 @@ public class SettingsManager {
         loadDefaults();
     }
     public void loadDefaults(){
+        config.options().header("Advanced Combat Tag version" + core.getDescription().getVersion() + " Main Configuration "+
+                "\n");
         config.addDefault("config.inCombat.DisabledCommands", Arrays.asList(new String[] {
                 "spawn"
         }));
+        config.addDefault("config.CombatTriggers.BlockDamage", true);
         config.options().copyDefaults(true);
         saveData();
         reloadData();
@@ -70,6 +73,7 @@ public class SettingsManager {
             Bukkit.getLogger().log(Level.SEVERE, "Configuration Exception! [Could not Save Configuration File.]");
         }
     }
+    public FileConfiguration getConfig(){ return config; }
     public void reloadData(){
         config = YamlConfiguration.loadConfiguration(cfile);
     }
