@@ -1,6 +1,7 @@
 package me.pyxled.combattag.events;
 
 import me.pyxled.combattag.Core;
+import me.pyxled.combattag.SettingsManager;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -38,10 +39,12 @@ public class PlayerHitPlayerEvent implements Listener {
                 }
             }
             if(attacker == null) return;
-            if(!core.combatTagTime.containsKey(victim) || !core.combatTagTime.containsKey(attacker)){
-                if(e.getDamager() == attacker){
-                    core.inCombatVictim(victim);
-                    core.inCombatAttacker(attacker, victim);
+                if(!core.combatTagTime.containsKey(victim) || !core.combatTagTime.containsKey(attacker)){
+                    if(SettingsManager.getInstance().getConfig().getBoolean("config.CombatTriggers.PvPDamage")){
+                        if(e.getDamager() == attacker) {
+                            core.inCombatVictim(victim);
+                            core.inCombatAttacker(attacker, victim);
+                    }
                 }
             }
         }
