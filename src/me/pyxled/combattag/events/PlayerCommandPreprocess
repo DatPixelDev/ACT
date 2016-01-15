@@ -23,9 +23,8 @@ public class PlayerPreProcessEvent implements Listener {
         if(Core.commands != null) {
             if(!Core.commands.isEmpty()) {
                 if(Core.combatTagTime.containsKey(p)) {
-                    if (e.getMessage().startsWith(Core.commands.toString())){
+                    if (e.getMessage().startsWith(Core.commands.toString().replace("[", "").replace("]", ""))){
                         p.sendMessage(Core.translate("&6[&eACT&6] &cYou may not run this command while in combat!"));
-                        e.setCancelled(true);
                     }
                 }
             }
