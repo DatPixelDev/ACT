@@ -15,8 +15,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
  * File created: 01/12/2016
  */
 public class PlayerHitPlayerEvent implements Listener {
-    Core core = new Core();
-
+    @SuppressWarnings("static-access")
     @EventHandler
     public void onEntityHit(EntityDamageByEntityEvent e){
         Entity e1 = e.getEntity();
@@ -39,14 +38,14 @@ public class PlayerHitPlayerEvent implements Listener {
                 }
             }
             if(attacker == null) return;
-                if(!core.combatTagTime.containsKey(victim) || !core.combatTagTime.containsKey(attacker)){
-                    if(SettingsManager.getInstance().getConfig().getBoolean("config.CombatTriggers.PvPDamage")){
+            if(victim.hasPermission("act.bypass")) return;
+                if(Core.combatTagTime.containsKey(victim) || Core.combatTagTime.containsKey(attacker)) return;
+                    if(SettingsManager.getInstance().getConfig().get("config.CombatTriggers.PvPDamage") == true){
                         if(e.getDamager() == attacker) {
-                            core.inCombatVictim(victim);
-                            core.inCombatAttacker(attacker, victim);
+                            Core.inCombatVictim(victim);
+                            Core.inCombatAttacker(attacker, victim);
+                        }
                     }
-                }
-            }
         }
     }
 }
