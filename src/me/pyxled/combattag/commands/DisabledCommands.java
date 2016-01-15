@@ -20,7 +20,7 @@ public class DisabledCommands {
     public boolean onCommand(CommandSender s, Command c, String l, String[] args) {
         if(s instanceof Player){
             Player p = (Player)s;
-            if(commands != null && !commands.isEmpty() && l.contentEquals(commands.toString()) && core.combatTagTime.containsKey(p)){
+            if(commands != null && !commands.isEmpty() && l.contentEquals(commands.toString().replace("[", "").replace("]", "").replace(",", "")) && core.combatTagTime.containsKey(p)){
                 p.sendMessage(core.translate("&6[&eACT&6] &cYou cannot use this command while in combat!"));
                 return true;
             }
