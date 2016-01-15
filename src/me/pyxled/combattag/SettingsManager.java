@@ -16,8 +16,6 @@ import java.util.logging.Level;
  */
 public class SettingsManager {
 
-    Core core = new Core();
-
     private SettingsManager() { }
 
     static SettingsManager instance = new SettingsManager();
@@ -28,7 +26,7 @@ public class SettingsManager {
 
     FileConfiguration config;
     File cfile;
-
+    @SuppressWarnings("static-access")
     public void setup(Plugin p){
         cfile = new File(p.getDataFolder(), "config.yml");
         config = p.getConfig();
@@ -46,12 +44,33 @@ public class SettingsManager {
         loadDefaults();
     }
     public void loadDefaults(){
-        config.options().header("Advanced Combat Tag version" + core.getDescription().getVersion() + " Main Configuration "+
+        config.options().header("Advanced Combat Tag version" + Bukkit.getPluginManager().getPlugin("ACT").getDescription().getVersion() + " Main Configuration "+
                 "\n");
         config.addDefault("config.inCombat.DisabledCommands", Arrays.asList(new String[] {
                 "spawn"
         }));
+        config.addDefault("config.Settings.CombatTime", "10");
+        config.addDefault("config.Messages.NoPermission", "&cNo permission");
+        config.addDefault("config.Messages.TimeLeft", "&7You are in combat for &e%time &7seconds!");
+        config.addDefault("config.Messages.NotInCombat", "&cYou are not in combat!");
+        config.addDefault("config.CombatTriggers.PvPDamage", true);
         config.addDefault("config.CombatTriggers.BlockDamage", true);
+        config.addDefault("config.CombatTriggers.DrowningDamage", true);
+        config.addDefault("config.CombatTriggers.MobDamage", true);
+        config.addDefault("config.CombatTriggers.CreeperDamage", true);
+        config.addDefault("config.CombatTriggers.FallDamage", true);
+        config.addDefault("config.CombatTriggers.FallingBlockDamage", true);
+        config.addDefault("config.CombatTriggers.FireDamage", true);
+        config.addDefault("config.CombatTriggers.LavaDamage", true);
+        config.addDefault("config.CombatTriggers.LightningDamage", true);
+        config.addDefault("config.CombatTriggers.MagicDamage", true);
+        config.addDefault("config.CombatTriggers.MeltingDamage", true);
+        config.addDefault("config.CombatTriggers.PoisonDamage", true);
+        config.addDefault("config.CombatTriggers.ProjectileDamage", true);
+        config.addDefault("config.CombatTriggers.HungerDamage", true);
+        config.addDefault("config.CombatTriggers.SuffocationDamage", true);
+        config.addDefault("config.CombatTriggers.ThornsDamage", true);
+        config.addDefault("config.CombatTriggers.WitherDamage", true);
         config.options().copyDefaults(true);
         saveData();
         reloadData();
@@ -61,9 +80,9 @@ public class SettingsManager {
             return 0;
         }
 
-        core.commands = config.getStringList("config.inCombat.DisabledCommands");
+        Core.commands = config.getStringList("config.inCombat.DisabledCommands");
 
-        return core.commands.size();
+        return Core.commands.size();
     }
     public void saveData(){
         try{
