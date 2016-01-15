@@ -12,16 +12,16 @@ import org.bukkit.event.player.PlayerQuitEvent;
  * File created: 01/11/2016
  */
 public class QuitEvent implements Listener {
-
-    Core core = new Core();
-
     @EventHandler
     public void onQuit(PlayerQuitEvent e){
         Player p = e.getPlayer();
-        if(core.combatTagTime.containsKey(p)){
+        if(p.hasPermission("act.bypass")){
+            return;
+        }
+        if(Core.combatTagTime.containsKey(p)){
             p.setHealth(0.0D);
-            Bukkit.getServer().broadcastMessage(core.LoggedOutInCombat(p));
-            core.combatTagTime.remove(p);
+            Bukkit.getServer().broadcastMessage(Core.LoggedOutInCombat(p));
+            Core.combatTagTime.remove(p);
         }
     }
 }
